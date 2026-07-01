@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منارة | دليلك قبل ما تدخل الجامعة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0B1526;
+    --navy-mid:#122036;
+    --navy-card:#182A45;
+    --navy-card-hover:#1E3352;
+    --gold:#E8A33D;
+    --gold-soft:#F2C572;
+    --cream:#F4EFE6;
+    --muted:#8FA3BF;
+    --muted-2:#5E7592;
+    --green:#6FA98A;
+    --line:rgba(232,163,61,0.16);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy-deep);
+    color:var(--cream);
+    font-family:'IBM Plex Sans Arabic',sans-serif;
+    line-height:1.7;
+    min-height:100vh;
+  }
+  h1,h2,h3,h4{font-family:'Cairo',sans-serif;margin:0;}
+  p{margin:0;}
+  button{font-family:inherit;cursor:pointer;}
+  ::selection{background:var(--gold);color:var(--navy-deep);}
+
+  /* ===== Beacon backdrop ===== */
+  .beacon-wrap{
+    position:relative;
+    overflow:hidden;
+    padding:64px 20px 56px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  .beacon-glow{
+    position:absolute;
+    top:-260px;
+    left:50%;
+    width:900px;
+    height:900px;
+    transform:translateX(-50%);
+    background:conic-gradient(from 0deg, transparent 0deg, rgba(232,163,61,0.22) 8deg, transparent 22deg, transparent 338deg, rgba(232,163,61,0.22) 352deg, transparent 360deg);
+    animation:sweep 7s linear infinite;
+    pointer-events:none;
+  }
+  @keyframes sweep{ to{ transform:translateX(-50%) rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){ .beacon-glow{animation:none;} }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--gold-soft);
+    font-size:13px;
+    letter-spacing:.5px;
+    font-weight:600;
+    margin-bottom:18px;
+    position:relative;
+  }
+  .eyebrow::before{content:"✦";}
+
+  .hero-title{
+    font-size:clamp(40px,8vw,72px);
+    font-weight:900;
+    color:var(--cream);
+    position:relative;
+    letter-spacing:1px;
+  }
+  .hero-sub{
+    max-width:560px;
+    margin:18px auto 0;
+    color:var(--muted);
+    font-size:16.5px;
+    position:relative;
+  }
+
+  /* ===== Nav ===== */
+  nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(11,21,38,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:center;
+    gap:4px;
+    padding:10px 12px;
+    flex-wrap:wrap;
+  }
+  .stop-btn{
+    background:transparent;
+    border:1px solid transparent;
+    color:var(--muted);
+    padding:9px 18px;
+    border-radius:999px;
+    font-size:14.5px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition:.2s;
+  }
+  .stop-btn .num{
+    font-family:'Cairo',sans-serif;
+    font-size:11px;
+    background:rgba(143,163,191,0.15);
+    color:var(--muted);
+    width:18px;height:18px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;
+  }
+  .stop-btn.active{
+    color:var(--navy-deep);
+    background:var(--gold);
+  }
+  .stop-btn.active .num{background:rgba(11,21,38,0.25);color:var(--navy-deep);}
+  .stop-btn:not(.active):hover{border-color:var(--line);color:var(--cream);}
+
+  main{max-width:920px;margin:0 auto;padding:44px 20px 90px;}
+  section.panel{display:none;animation:fadein .35s ease;}
+  section.panel.active{display:block;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .panel-head{margin-bottom:28px;}
+  .panel-head h2{font-size:28px;color:var(--cream);margin-bottom:8px;}
+  .panel-head p{color:var(--muted);font-size:15px;}
+
+  /* ===== Quiz ===== */
+  .quiz-card{
+    background:var(--navy-card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:32px;
+  }
+  .progress-track{height:4px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;margin-bottom:26px;}
+  .progress-fill{height:100%;background:var(--gold);width:12.5%;transition:width .3s;}
+  .q-count{color:var(--muted-2);font-size:13px;margin-bottom:10px;font-weight:600;}
+  .q-text{font-size:20px;font-weight:700;color:var(--cream);margin-bottom:22px;font-family:'Cairo',sans-serif;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt-btn{
+    text-align:right;
+    background:var(--navy-mid);
+    border:1px solid var(--line);
+    color:var(--cream);
+    padding:14px 18px;
+    border-radius:12px;
+    font-size:15px;
+    transition:.15s;
+  }
+  .opt-btn:hover{background:var(--navy-card-hover);border-color:var(--gold);transform:translateX(-2px);}
+
+  .result-card{display:none;}
+  .result-card.show{display:block;}
+  .result-badge{
+    display:inline-block;
+    background:rgba(232,163,61,0.12);
+    color:var(--gold-soft);
+    padding:6px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  .result-title{font-size:26px;color:var(--cream);margin-bottom:10px;}
+  .result-desc{color:var(--muted);font-size:15px;margin-bottom:22px;}
+  .result-majors{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px;}
+  @media(max-width:600px){.result-majors{grid-template-columns:1fr;}}
+  .mini-card{background:var(--navy-mid);border:1px solid var(--line);border-radius:12px;padding:16px;}
+  .mini-card h4{color:var(--cream);font-size:15.5px;margin-bottom:4px;}
+  .mini-card span{color:var(--muted-2);font-size:12.5px;}
+  .action-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn-gold{background:var(--gold);color:var(--navy-deep);border:none;padding:12px 22px;border-radius:10px;font-weight:700;font-size:14.5px;}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--cream);padding:12px 22px;border-radius:10px;font-weight:600;font-size:14.5px;}
+
+  /* ===== Majors ===== */
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+  .filter-chip{
+    background:var(--navy-mid);
+    border:1px solid var(--line);
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:13.5px;
+    font-weight:600;
+  }
+  .filter-chip.active{background:var(--gold);color:var(--navy-deep);border-color:var(--gold);}
+  .major-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:680px){.major-grid{grid-template-columns:1fr;}}
+  .major-card{
+    background:var(--navy-card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px;
+  }
+  .major-card h3{color:var(--cream);font-size:18px;margin-bottom:6px;}
+  .major-tag{display:inline-block;font-size:11.5px;color:var(--gold-soft);font-weight:700;margin-bottom:10px;}
+  .major-desc{color:var(--muted);font-size:13.8px;margin-bottom:14px;}
+  .major-row{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line);font-size:13px;}
+  .major-row b{color:var(--cream);font-weight:600;font-size:13px;}
+  .major-row span.label{color:var(--muted-2);}
+  .demand{font-weight:700;}
+  .demand.high{color:var(--green);}
+  .demand.mid{color:var(--gold-soft);}
+
+  /* ===== FAQ ===== */
+  .faq-item{
+    background:var(--navy-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .faq-item summary{
+    padding:17px 20px;
+    font-weight:700;
+    font-size:15px;
+    color:var(--cream);
+    cursor:pointer;
+    list-style:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'Cairo',sans-serif;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:"+";color:var(--gold);font-size:20px;transition:.2s;}
+  .faq-item[open] summary::after{transform:rotate(45deg);}
+  .faq-body{padding:0 20px 18px;color:var(--muted);font-size:14.5px;}
+
+  /* ===== Chat ===== */
+  .chat-wrap{
+    background:var(--navy-card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    display:flex;
+    flex-direction:column;
+    height:560px;
+  }
+  .chat-log{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px;}
+  .msg{max-width:80%;padding:12px 16px;border-radius:14px;font-size:14.5px;line-height:1.7;}
+  .msg.bot{background:var(--navy-mid);color:var(--cream);align-self:flex-start;border:1px solid var(--line);}
+  .msg.user{background:var(--gold);color:var(--navy-deep);align-self:flex-end;font-weight:600;}
+  .msg.typing{color:var(--muted-2);font-style:italic;}
+  .chat-input-row{display:flex;gap:10px;padding:16px;border-top:1px solid var(--line);}
+  .chat-input-row input{
+    flex:1;
+    background:var(--navy-mid);
+    border:1px solid var(--line);
+    color:var(--cream);
+    padding:12px 16px;
+    border-radius:10px;
+    font-size:14.5px;
+    font-family:inherit;
+  }
+  .chat-input-row input:focus{outline:none;border-color:var(--gold);}
+  .chat-send{background:var(--gold);color:var(--navy-deep);border:none;padding:0 22px;border-radius:10px;font-weight:700;}
+  .chat-hint{color:var(--muted-2);font-size:12px;padding:0 16px 14px;}
+
+  footer{text-align:center;padding:28px;color:var(--muted-2);font-size:12.5px;border-top:1px solid var(--line);}
+</style>
+</head>
+<body>
+
+<div class="beacon-wrap">
+  <div class="beacon-glow"></div>
+  <div class="eyebrow">دليل الطالب المقبل على الجامعة</div>
+  <h1 class="hero-title">منارة</h1>
+  <p class="hero-sub">قبل لا تدخل الجامعة وتتوه بين التخصصات، منارة توريك الطريق: تعرف على ميولك، تعرف التخصصات وسوق العمل لها، وتسأل مرشدك الشخصي أي سؤال يخطر ببالك.</p>
+</div>
+
+<nav id="nav">
+  <button class="stop-btn active" data-panel="quiz"><span class="num">1</span> البوصلة</button>
+  <button class="stop-btn" data-panel="majors"><span class="num">2</span> الخريطة</button>
+  <button class="stop-btn" data-panel="faq"><span class="num">3</span> أسئلة شائعة</button>
+  <button class="stop-btn" data-panel="chat"><span class="num">4</span> المرشد الذكي</button>
+</nav>
+
+<main>
+
+  <!-- ===== QUIZ PANEL ===== -->
+  <section class="panel active" id="panel-quiz">
+    <div class="panel-head">
+      <h2>وش يناسبك؟</h2>
+      <p>٨ أسئلة بسيطة تكشف لك أقرب مجال لميولك الحقيقية — مو لميول أهلك أو أصحابك.</p>
+    </div>
+
+    <div class="quiz-card">
+      <div id="quizBody">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="q-count" id="qCount">السؤال ١ من ٨</div>
+        <div class="q-text" id="qText"></div>
+        <div class="options" id="qOptions"></div>
+      </div>
+
+      <div class="result-card" id="resultCard">
+        <span class="result-badge">نتيجتك</span>
+        <h3 class="result-title" id="resultTitle"></h3>
+        <p class="result-desc" id="resultDesc"></p>
+        <div class="result-majors" id="resultMajors"></div>
+        <div class="action-row">
+          <button class="btn-gold" id="goMajorsBtn">شوف كل تخصصات هذا المجال</button>
+          <button class="btn-ghost" id="retakeBtn">أعد الاختبار</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAJORS PANEL ===== -->
+  <section class="panel" id="panel-majors">
+    <div class="panel-head">
+      <h2>خريطة التخصصات</h2>
+      <p>معلومات مختصرة عن كل تخصص: وش تدرس، وش تشتغل بعده، طلب السوق، والجامعات السعودية الأقوى فيه.</p>
+    </div>
+    <div class="filter-row" id="filterRow"></div>
+    <div class="major-grid" id="majorGrid"></div>
+  </section>
+
+  <!-- ===== FAQ PANEL ===== -->
+  <section class="panel" id="panel-faq">
+    <div class="panel-head">
+      <h2>أسئلة يسألها كل طالب جديد</h2>
+      <p>أسئلة تتكرر عند كل دفعة من الطلاب المقبولين حديثًا.</p>
+    </div>
+    <div id="faqList"></div>
+  </section>
+
+  <!-- ===== CHAT PANEL (Coming soon) ===== -->
+  <section class="panel" id="panel-chat">
+    <div class="panel-head">
+      <h2>المرشد الذكي</h2>
+      <p>اسأل أي سؤال عن التخصصات، القبول، أو الحياة الجامعية.</p>
+    </div>
+    <div class="chat-wrap" style="align-items:center;justify-content:center;">
+      <div style="text-align:center;padding:40px;max-width:420px;">
+        <div style="font-size:44px;margin-bottom:18px;">🔦</div>
+        <h3 style="color:var(--cream);font-size:20px;margin-bottom:10px;">المرشد الذكي قريبًا</h3>
+        <p style="color:var(--muted);font-size:14.5px;line-height:1.8;">نشتغل حاليًا على ربط المرشد الذكي بشكل آمن. لين ذا الوقت، تقدرين تستخدمين البوصلة والخريطة والأسئلة الشائعة، وتلقين إجابات معظم أسئلتك هناك.</p>
+        <button class="btn-gold" style="margin-top:22px;" onclick="document.querySelector('[data-panel=faq]').click()">روحي للأسئلة الشائعة</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>منارة — صُنع بواسطة طالبة IT عشان تسهّل الطريق على اللي بعدها 🔦</footer>
+
+<script>
+/* ============ DATA ============ */
+const CATS = {
+  tech:{ name:"التقني", desc:"تحب الأجهزة، البرمجة، وتحليل البيانات وتبني حلول رقمية." },
+  eng:{ name:"الهندسي", desc:"تحب تفهم كيف تُبنى الأشياء وتصمم أنظمة وحلول ملموسة." },
+  med:{ name:"الطبي والصحي", desc:"يشدك مجال مساعدة الناس صحيًا والتعامل مع جسم الإنسان." },
+  biz:{ name:"الإداري والمالي", desc:"تحب الأرقام، الإدارة، وبناء المشاريع واتخاذ القرار." },
+  design:{ name:"الإبداعي والتصميمي", desc:"عندك حس بصري وتحب التعبير عن الأفكار بشكل جمالي." },
+  human:{ name:"الإنساني والاجتماعي", desc:"يشدك فهم الناس، التحليل، والدفاع عن الحقوق والأفكار." }
+};
+
+const QUESTIONS = [
+ {q:"أي نشاط يخطف وقتك بدون ما تحس؟", opts:[
+   ["أجرب تطبيقات وألعاب جديدة وأفهم كيف تشتغل","tech"],
+   ["أفكك جهاز أو أشوف كيف الأشياء مبنية","eng"],
+   ["أتابع محتوى طبي أو أهتم بصحة أهلي","med"],
+   ["أخطط لمشروع صغير وأحسب أرباحه","biz"],
+   ["أرسم أو أصمم شي بصري","design"],
+   ["أقرا عن سلوك الناس وأحلل شخصياتهم","human"]]},
+ {q:"لو خيروك مادة إضافية بالثانوي، وش تختار؟", opts:[
+   ["حاسب آلي","tech"],["فيزياء","eng"],["أحياء","med"],
+   ["اقتصاد","biz"],["فنون وتصميم","design"],["علم اجتماع","human"]]},
+ {q:"صديقك عنده مشكلة، وش يكون دورك غالبًا؟", opts:[
+   ["يسألني أحل له مشكلة تقنية بجهازه","tech"],
+   ["يسألني أساعده يركّب أو يصلّح شي","eng"],
+   ["يسألني عن أعراض صحية","med"],
+   ["يسألني أخطط له مصروفه","biz"],
+   ["يسألني رأيي بالتنسيق أو الشكل","design"],
+   ["يجيني يفضفض ويطلب نصيحة","human"]]},
+ {q:"أي بيئة عمل تشدك أكثر؟", opts:[
+   ["مكتب هادئ مع شاشات وأكواد","tech"],
+   ["موقع مشروع أشوف فيه التنفيذ فعليًا","eng"],
+   ["مستشفى أو مركز صحي","med"],
+   ["شركة فيها اجتماعات وقرارات","biz"],
+   ["استوديو تصميم مفتوح","design"],
+   ["مكان أتعامل فيه مع ناس مباشرة","human"]]},
+ {q:"وش رايك في الرياضيات والمنطق؟", opts:[
+   ["أحبها خصوصًا لو مرتبطة بالبرمجة","tech"],
+   ["أحبها بالتطبيق العملي أكثر من النظري","eng"],
+   ["أتحملها بس مو شغفي الأساسي","med"],
+   ["أحبها وقت تكون أرقام مالية","biz"],
+   ["أفضّل التفكير البصري على الأرقام","design"],
+   ["أفضّل التفكير بالكلام والتحليل","human"]]},
+ {q:"أي إنجاز يفرحك أكثر؟", opts:[
+   ["بنيت تطبيق أو موقع يشتغل من الصفر","tech"],
+   ["صممت شي ملموس زي نظام أو منشأة","eng"],
+   ["ساعدت شخص يتحسن وضعه الصحي بسببك","med"],
+   ["أطلقت مشروع نجح تجاريًا","biz"],
+   ["صممت شي الناس يعجبهم شكله","design"],
+   ["غيّرت رأي أو قرار شخص بنقاش أو دفاع","human"]]},
+ {q:"كيف تحب تتعلم شي جديد؟", opts:[
+   ["أجرب بنفسي وأكسر وأصلح","tech"],
+   ["أفهم كيف الأشياء تشتغل من الداخل","eng"],
+   ["أحفظ وأفهم أنظمة معقدة بالتفصيل","med"],
+   ["أقرا عن السوق واتجاهاته","biz"],
+   ["أشوف أمثلة بصرية تلهمني","design"],
+   ["أناقش وأسمع وجهات نظر مختلفة","human"]]},
+ {q:"وش هدفك الأكبر من شغلك المستقبلي؟", opts:[
+   ["أبتكر تقنيات تغيّر تعامل الناس مع التكنولوجيا","tech"],
+   ["أبني أشياء تدوم وتخدم المجتمع","eng"],
+   ["أنقذ أرواح أو أحسّن حياة الناس صحيًا","med"],
+   ["أحقق استقلال مالي وأدير مشاريعي","biz"],
+   ["أعبّر عن نفسي وأترك بصمة إبداعية","design"],
+   ["أفهم وأساعد الناس نفسيًا أو قانونيًا","human"]]}
+];
+
+const MAJORS = [
+ {name:"علوم الحاسب والذكاء الاصطناعي", cat:"tech",
+  desc:"دراسة الخوارزميات والبرمجة وبناء أنظمة ذكاء اصطناعي تتعلم من البيانات.",
+  jobs:"مهندس ذكاء اصطناعي، عالم بيانات، مطوّر تطبيقات، مهندس تعلم آلي",
+  demand:"مرتفع جدًا", demandClass:"high",
+  salary:"12–18 ألف ريال بداية، حتى 35–70 ألف بعد 5 سنوات",
+  unis:"كاوست (دراسات عليا)، الملك فهد للبترول والمعادن، الملك سعود، الملك عبدالعزيز"},
+ {name:"الأمن السيبراني", cat:"tech",
+  desc:"حماية الأنظمة والشبكات من الاختراقات وبناء جدران الحماية.",
+  jobs:"محلل أمن معلومات، مختبر اختراق، مهندس حماية شبكات",
+  demand:"مرتفع جدًا", demandClass:"high",
+  salary:"يقارب رواتب تخصصات الحاسب مع طلب متزايد سنويًا",
+  unis:"الملك فهد للبترول والمعادن، الملك سعود، جامعة الطائف"},
+ {name:"الهندسة الكهربائية والإلكترونية", cat:"eng",
+  desc:"تصميم الأنظمة الكهربائية والدوائر الإلكترونية وأنظمة التحكم.",
+  jobs:"مهندس كهرباء، مهندس دوائر، مهندس أنظمة تحكم",
+  demand:"مرتفع", demandClass:"high",
+  salary:"من التخصصات الهندسية الأعلى طلبًا في تصنيفات المنطقة",
+  unis:"الملك فهد للبترول والمعادن، الملك سعود، الملك عبدالعزيز"},
+ {name:"الهندسة المدنية والمعمارية", cat:"eng",
+  desc:"تصميم المباني، الطرق، والبنية التحتية وإدارة تنفيذها.",
+  jobs:"مهندس مدني، مهندس إنشائي، مهندس مشاريع، مهندس معماري",
+  demand:"مرتفع", demandClass:"high",
+  salary:"طلب مستمر مدفوع بمشاريع البنية التحتية الكبرى",
+  unis:"الملك سعود، أم القرى، الملك عبدالعزيز"},
+ {name:"هندسة البترول", cat:"eng",
+  desc:"استكشاف واستخراج النفط والغاز وإدارة الحقول والخزانات.",
+  jobs:"مهندس بترول، مهندس حفر، مهندس خزانات",
+  demand:"مرتفع جدًا (سعوديًا)", demandClass:"high",
+  salary:"من أعلى التخصصات الهندسية رواتبًا في السعودية",
+  unis:"الملك فهد للبترول والمعادن (الأول عربيًا والرابع عالميًا في التخصص)"},
+ {name:"الطب البشري", cat:"med",
+  desc:"تشخيص وعلاج الأمراض وإجراء الجراحات.",
+  jobs:"طبيب عام، جراح، طبيب مقيم متخصص",
+  demand:"مرتفع", demandClass:"high",
+  salary:"من أعلى المهن رواتبًا في السعودية، خصوصًا للجراحين",
+  unis:"الملك سعود، الملك عبدالعزيز، الإمام عبدالرحمن بن فيصل، الفيصل"},
+ {name:"التمريض", cat:"med",
+  desc:"الرعاية الصحية المباشرة للمرضى داخل المستشفيات والمراكز الصحية.",
+  jobs:"ممرض/ة، ممرض عناية مركزة، مشرف تمريض",
+  demand:"مرتفع جدًا وثابت", demandClass:"high",
+  salary:"طلب عالمي متزايد يجعله من أكثر التخصصات أمانًا وظيفيًا",
+  unis:"جامعة الأمير سلطان للعلوم الصحية، الملك سعود، الأميرة نورة"},
+ {name:"إدارة الأعمال والتسويق الرقمي", cat:"biz",
+  desc:"إدارة المشاريع والفرق والتسويق للمنتجات والخدمات.",
+  jobs:"مدير تسويق، محلل أعمال، رائد أعمال، مدير منتج",
+  demand:"مرتفع", demandClass:"high",
+  salary:"فرص واسعة في القطاع الخاص المتوسع",
+  unis:"الأميرة نورة، الملك سعود، عفت، الملك عبدالعزيز"},
+ {name:"المحاسبة والعلوم المالية", cat:"biz",
+  desc:"إدارة الحسابات المالية والميزانيات والاستثمار والمراجعة.",
+  jobs:"محاسب قانوني، محلل مالي، مراجع حسابات",
+  demand:"مرتفع ومستقر", demandClass:"high",
+  salary:"طلب ثابت مع نمو القطاع المصرفي والاستثماري",
+  unis:"الملك سعود، الملك عبدالعزيز، الأميرة نورة"},
+ {name:"التصميم الجرافيكي والداخلي", cat:"design",
+  desc:"تصميم الهوية البصرية، الواجهات، والمساحات الداخلية.",
+  jobs:"مصمم جرافيك، مصمم UI/UX، مصمم داخلي",
+  demand:"متوسط إلى مرتفع", demandClass:"mid",
+  salary:"فرص عمل حر واسعة إضافة للتوظيف بالشركات",
+  unis:"عفت، الأميرة نورة، دار الحكمة"},
+ {name:"الإعلام الرقمي والعلاقات العامة", cat:"design",
+  desc:"صناعة المحتوى وإدارة الصورة الإعلامية والرقمية للمؤسسات.",
+  jobs:"أخصائي علاقات عامة، صانع محتوى، مدير سوشال ميديا",
+  demand:"متوسط إلى مرتفع", demandClass:"mid",
+  salary:"نمو مستمر مع توسع الاقتصاد الرقمي",
+  unis:"الملك سعود، الأميرة نورة، عفت"},
+ {name:"القانون", cat:"human",
+  desc:"دراسة الأنظمة والتشريعات والترافع أمام الجهات القضائية.",
+  jobs:"محامٍ، مستشار قانوني، وكيل نيابة",
+  demand:"متوسط إلى مرتفع", demandClass:"mid",
+  salary:"طلب متنامٍ مع اتساع الاستثمار الأجنبي والقطاع الخاص",
+  unis:"الملك سعود، الإمام محمد بن سعود الإسلامية، أم القرى"},
+ {name:"علم النفس", cat:"human",
+  desc:"دراسة السلوك الإنساني والصحة النفسية وأساليب الاستشارة.",
+  jobs:"أخصائي نفسي، مستشار أسري، أخصائي موارد بشرية",
+  demand:"متوسط ومتنامٍ", demandClass:"mid",
+  salary:"طلب متزايد مع الاهتمام المجتمعي بالصحة النفسية",
+  unis:"الملك سعود، الأميرة نورة، الإمام"}
+];
+
+const FAQS = [
+ {q:"وش الفرق بين النسبة الموزونة والمعدل التراكمي؟",
+  a:"النسبة الموزونة تُستخدم للقبول الجامعي فقط، وتُحسب من الثانوية العامة (٣٠٪) + اختبار القدرات (٣٠٪) + الاختبار التحصيلي (٤٠٪) تقريبًا حسب كل جامعة. أما المعدل التراكمي (GPA) فيبدأ حسابه بعد ما تدخل الجامعة، ويعتمد على درجاتك في المواد اللي تسجلها كل فصل."},
+ {q:"وش هو نظام الساعات المعتمدة؟",
+  a:"كل مادة تدرسها لها عدد 'ساعات معتمدة' حسب وزنها (عادة ٢-٤ ساعات). تتخرج لما تكمل عدد الساعات المطلوبة للتخصص (غالبًا بين ١٢٠-١٦٠ ساعة). كل فصل تسجل عدد ساعات معين، وسرعة تخرجك ترتبط بعدد الساعات اللي تسجلها كل فصل."},
+ {q:"هل أقدر أغيّر تخصصي بعد القبول؟",
+  a:"في أغلب الجامعات السعودية نعم، خصوصًا في السنة التحضيرية أو أول سنة، لكن يشترط توفر مقعد شاغر بالتخصص الجديد ومعدل يستوفي شرط القبول فيه. راجعي عمادة القبول والتسجيل بجامعتك لمعرفة الإجراء بالتحديد."},
+ {q:"وش السنة التحضيرية ووش فايدتها؟",
+  a:"سنة أساسية قبل التخصص الفعلي، تدرس فيها مواد عامة (لغة إنجليزية، مهارات حاسب، رياضيات) تأهلك للتخصص. أداؤك فيها غالبًا يحدد أي تخصص تقدر تدخله بعدها."},
+ {q:"كم ساعة يُفضل أسجل كل فصل؟",
+  a:"الحمل الكامل عادة بين ١٥-١٨ ساعة. أول فصل يفضل تبدأ بعدد معقول (مو أقصى حمل) عشان تتأقلم على أسلوب الجامعة قبل لا تزيد."},
+ {q:"وش أسوي إذا رسبت في مادة؟",
+  a:"تقدر تعيد تسجيلها في فصل لاحق، وغالبًا آخر محاولة ناجحة هي اللي تُحسب بالمعدل، لكن هذا يختلف من جامعة لأخرى — تأكدي من لائحة جامعتك بالتحديد."},
+ {q:"وش الفرق بين الانتظام والانتساب؟",
+  a:"الانتظام يعني حضور فعلي للمحاضرات بالحرم الجامعي، والانتساب نظام غالبًا للطالبات أو موظفين، يعتمد على دراسة عن بعد أو حضور جزئي مع اختبارات حضورية."},
+ {q:"هل لازم أشارك في الأنشطة الطلابية؟",
+  a:"مو إلزامي غالبًا، لكنها تفيدك كثير: تبني شبكة علاقات، تكتسب مهارات قيادية، وتقوي سيرتك الذاتية لفرص التدريب والتوظيف بعد التخرج."},
+ {q:"متى ابدأ أفكر في التدريب التعاوني؟",
+  a:"من أول سنتين حاولي تبنين مهارات عملية (مشاريع، شهادات مصغّرة)، والتدريب الفعلي غالبًا بيكون آخر فصل أو فصلين قبل التخرج — لكن التقديم المبكر على فرص صيفية من السنة الثانية يعطيك أفضلية."},
+ {q:"كيف أختار بين جامعتين تقدمان نفس التخصص؟",
+  a:"لا تعتمدين على اسم الجامعة العام فقط، شوفي ترتيبها في التخصص نفسه تحديدًا، وفرص التدريب والتوظيف اللي توفرها، وقربها من سوق العمل في مدينتك."}
+];
+
+/* ============ QUIZ LOGIC ============ */
+let qIndex = 0;
+const scores = {tech:0,eng:0,med:0,biz:0,design:0,human:0};
+
+function renderQuestion(){
+  const item = QUESTIONS[qIndex];
+  document.getElementById('qCount').textContent = `السؤال ${toArNum(qIndex+1)} من ٨`;
+  document.getElementById('qText').textContent = item.q;
+  document.getElementById('progressFill').style.width = ((qIndex)/QUESTIONS.length*100)+'%';
+  const optsWrap = document.getElementById('qOptions');
+  optsWrap.innerHTML = '';
+  item.opts.forEach(([label,cat])=>{
+    const b = document.createElement('button');
+    b.className='opt-btn';
+    b.textContent=label;
+    b.onclick=()=>{ scores[cat]++; qIndex++; if(qIndex<QUESTIONS.length){renderQuestion();} else {showResult();} };
+    optsWrap.appendChild(b);
+  });
+}
+function toArNum(n){ const map=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return String(n).split('').map(d=>map[d]||d).join(''); }
+
+function showResult(){
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('quizBody').style.display='none';
+  const resultCard = document.getElementById('resultCard');
+  resultCard.classList.add('show');
+  const topCat = Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
+  document.getElementById('resultTitle').textContent = 'مجالك الأقرب: ' + CATS[topCat].name;
+  document.getElementById('resultDesc').textContent = CATS[topCat].desc;
+  const majorsWrap = document.getElementById('resultMajors');
+  majorsWrap.innerHTML='';
+  MAJORS.filter(m=>m.cat===topCat).slice(0,2).forEach(m=>{
+    const d=document.createElement('div');
+    d.className='mini-card';
+    d.innerHTML = `<h4>${m.name}</h4><span>${m.jobs.split('،')[0]}</span>`;
+    majorsWrap.appendChild(d);
+  });
+  document.getElementById('goMajorsBtn').onclick = ()=>{
+    switchPanel('majors');
+    setFilter(topCat);
+  };
+}
+document.getElementById('retakeBtn').onclick = ()=>{
+  qIndex=0; Object.keys(scores).forEach(k=>scores[k]=0);
+  document.getElementById('resultCard').classList.remove('show');
+  document.getElementById('quizBody').style.display='block';
+  renderQuestion();
+};
+renderQuestion();
+
+/* ============ MAJORS PANEL ============ */
+const filterRow = document.getElementById('filterRow');
+let activeFilter = 'all';
+function buildFilters(){
+  filterRow.innerHTML='';
+  const all = document.createElement('button');
+  all.className='filter-chip active'; all.textContent='الكل'; all.dataset.cat='all';
+  filterRow.appendChild(all);
+  Object.entries(CATS).forEach(([key,val])=>{
+    const chip=document.createElement('button');
+    chip.className='filter-chip'; chip.textContent=val.name; chip.dataset.cat=key;
+    filterRow.appendChild(chip);
+  });
+  filterRow.querySelectorAll('.filter-chip').forEach(c=>{
+    c.onclick=()=> setFilter(c.dataset.cat);
+  });
+}
+function setFilter(cat){
+  activeFilter=cat;
+  filterRow.querySelectorAll('.filter-chip').forEach(c=>{
+    c.classList.toggle('active', c.dataset.cat===cat);
+  });
+  renderMajors();
+}
+function renderMajors(){
+  const grid = document.getElementById('majorGrid');
+  grid.innerHTML='';
+  const list = activeFilter==='all' ? MAJORS : MAJORS.filter(m=>m.cat===activeFilter);
+  list.forEach(m=>{
+    const card=document.createElement('div');
+    card.className='major-card';
+    card.innerHTML = `
+      <span class="major-tag">${CATS[m.cat].name}</span>
+      <h3>${m.name}</h3>
+      <p class="major-desc">${m.desc}</p>
+      <div class="major-row"><span class="label">المسميات الوظيفية</span><b>${m.jobs}</b></div>
+      <div class="major-row"><span class="label">الطلب بالسوق</span><b class="demand ${m.demandClass}">${m.demand}</b></div>
+      <div class="major-row"><span class="label">الرواتب</span><b>${m.salary}</b></div>
+      <div class="major-row"><span class="label">أفضل الجامعات</span><b>${m.unis}</b></div>
+    `;
+    grid.appendChild(card);
+  });
+}
+buildFilters();
+renderMajors();
+
+/* ============ FAQ ============ */
+const faqList = document.getElementById('faqList');
+FAQS.forEach(f=>{
+  const d = document.createElement('details');
+  d.className='faq-item';
+  d.innerHTML = `<summary>${f.q}</summary><div class="faq-body">${f.a}</div>`;
+  faqList.appendChild(d);
+});
+
+/* ============ NAV / PANELS ============ */
+function switchPanel(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.querySelectorAll('.stop-btn').forEach(b=>b.classList.toggle('active', b.dataset.panel===name));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.stop-btn').forEach(b=>{
+  b.onclick=()=>switchPanel(b.dataset.panel);
+});
+
+/* ============ CHAT (disabled for now) ============ */
+const chatLog = document.getElementById('chatLog');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+let chatHistory = [];
+
+if(chatLog && chatInput && chatSend){
+
+function addMsg(text, who){
+  const m=document.createElement('div');
+  m.className='msg '+who;
+  m.textContent=text;
+  chatLog.appendChild(m);
+  chatLog.scrollTop = chatLog.scrollHeight;
+  return m;
+}
+
+async function sendChat(){
+  const text = chatInput.value.trim();
+  if(!text) return;
+  addMsg(text,'user');
+  chatHistory.push({role:'user', content:text});
+  chatInput.value='';
+  const typingMsg = addMsg('يكتب...','bot typing');
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        model:"claude-sonnet-4-6",
+        max_tokens:1000,
+        system:"أنت مرشد أكاديمي سعودي ودود اسمه 'دليل'، تساعد طلاب الثانوية والطلاب الجدد في السعودية على فهم التخصصات الجامعية، سوق العمل، ونظام الجامعة (الساعات المعتمدة، النسبة الموزونة، التسجيل، القبول). جاوب دائمًا بالعربية بأسلوب مبسط ومباشر وودود، وخلي إجاباتك مختصرة إلا إذا طلب المستخدم تفصيل أكثر. لا تختلق أرقام أو حقائق دقيقة ما أنت متأكد منها، وانصح المستخدم بمراجعة الموقع الرسمي لجامعته للتفاصيل النهائية.",
+        messages: chatHistory
+      })
+    });
+    const data = await response.json();
+    typingMsg.remove();
+    const textBlocks = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text);
+    const reply = textBlocks.join('\n') || 'عذرًا، ما قدرت أجاوب الحين، جربي مرة ثانية.';
+    addMsg(reply,'bot');
+    chatHistory.push({role:'assistant', content:reply});
+  }catch(err){
+    typingMsg.remove();
+    addMsg('صار خطأ بالاتصال، جربي مرة ثانية.','bot');
+    console.error(err);
+  }
+}
+chatSend.onclick = sendChat;
+chatInput.addEventListener('keydown', e=>{ if(e.key==='Enter') sendChat(); });
+}
+</script>
+</body>
+</html>
